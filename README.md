@@ -1,63 +1,175 @@
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-2e0aaae1b6195c2367325f4f02e2d04e9abb55f0b24a779b69b11b9e10269abc.svg)](https://classroom.github.com/online_ide?assignment_repo_id=19716684&assignment_repo_type=AssignmentRepo)
-# Express.js RESTful API Assignment
+# 📦 Express.js RESTful API Assignment
 
-This assignment focuses on building a RESTful API using Express.js, implementing proper routing, middleware, and error handling.
+## 🚀 Overview
 
-## Assignment Overview
+This project is a RESTful API built with Express.js that performs CRUD operations on a `products` resource. It includes robust routing, middleware for logging, authentication, validation, and comprehensive error handling. Advanced features like pagination, search, and product statistics are also implemented.
 
-You will:
-1. Set up an Express.js server
-2. Create RESTful API routes for a product resource
-3. Implement custom middleware for logging, authentication, and validation
-4. Add comprehensive error handling
-5. Develop advanced features like filtering, pagination, and search
+---
 
-## Getting Started
+## 🛠️ Getting Started
 
-1. Accept the GitHub Classroom assignment invitation
-2. Clone your personal repository that was created by GitHub Classroom
-3. Install dependencies:
+### Prerequisites
+
+- Node.js v18+
+- npm
+- Postman, curl, or Insomnia for testing
+
+### Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone <your-repo-url>
+   cd week2-express-api
    ```
+
+2. Install dependencies:
+
+   ```bash
    npm install
    ```
-4. Run the server:
+
+3. Copy the environment file:
+
+   ```bash
+   cp .env.example .env
    ```
+
+4. Set your API key in the `.env` file:
+
+   ```env
+   API_KEY=test123
+   PORT=3000
+   ```
+
+5. Start the server:
+
+   ```bash
    npm start
    ```
 
-## Files Included
+---
 
-- `Week2-Assignment.md`: Detailed assignment instructions
-- `server.js`: Starter Express.js server file
-- `.env.example`: Example environment variables file
+## 📘 API Documentation
 
-## Requirements
+### Headers
 
-- Node.js (v18 or higher)
-- npm or yarn
-- Postman, Insomnia, or curl for API testing
+All modifying routes (`POST`, `PUT`, `DELETE`) require:
 
-## API Endpoints
+```http
+x-api-key: <your-api-key>
+Content-Type: application/json
+```
 
-The API will have the following endpoints:
+### Endpoints
 
-- `GET /api/products`: Get all products
-- `GET /api/products/:id`: Get a specific product
-- `POST /api/products`: Create a new product
-- `PUT /api/products/:id`: Update a product
-- `DELETE /api/products/:id`: Delete a product
+#### `GET /api/products`
 
-## Submission
+Returns all products.
 
-Your work will be automatically submitted when you push to your GitHub Classroom repository. Make sure to:
+- Supports query parameters:
 
-1. Complete all the required API endpoints
-2. Implement the middleware and error handling
-3. Document your API in the README.md
-4. Include examples of requests and responses
+  - `category=<category>` – filter by category
+  - `page=<number>&limit=<number>` – pagination
 
-## Resources
+#### `GET /api/products/:id`
 
-- [Express.js Documentation](https://expressjs.com/)
-- [RESTful API Design Best Practices](https://restfulapi.net/)
-- [HTTP Status Codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) 
+Returns a single product by `id`.
+
+#### `POST /api/products`
+
+Creates a new product.
+
+```json
+{
+  "name": "Laptop",
+  "description": "Gaming laptop",
+  "price": 1299.99,
+  "category": "electronics",
+  "inStock": true
+}
+```
+
+#### `PUT /api/products/:id`
+
+Updates an existing product.
+
+#### `DELETE /api/products/:id`
+
+Deletes a product.
+
+#### `GET /api/products/search?q=term`
+
+Search products by name.
+
+#### `GET /api/products/stats`
+
+Returns count of products by category.
+
+---
+
+## 🔐 Middleware
+
+- **Logger**: Logs method, URL, and timestamp.
+- **Authentication**: Checks for valid `x-api-key`.
+- **Validation**: Ensures valid fields in `POST` and `PUT`.
+- **JSON Parsing**: Parses incoming JSON requests.
+
+---
+
+## ❗ Error Handling
+
+- Global error handler for catching and formatting all errors.
+- Custom error classes:
+
+  - `NotFoundError`
+  - `ValidationError`
+  - `AuthenticationError`
+
+---
+
+## 📁 Project Structure
+
+```
+week2-express-api/
+├── controllers/
+├── middleware/
+├── routes/
+├── utils/
+├── server.js
+├── .env.example
+└── README.md
+```
+
+---
+
+## 🧪 Sample cURL Commands
+
+**Create Product**
+
+```bash
+curl -X POST http://localhost:3000/api/products \
+  -H "Content-Type: application/json" \
+  -H "x-api-key: test123" \
+  -d '{"name":"Pen","description":"Blue ink","price":2.99,"category":"stationery","inStock":true}'
+```
+
+**Get Products with Pagination**
+
+```bash
+curl http://localhost:3000/api/products?page=1&limit=5
+```
+
+**Search Products**
+
+```bash
+curl http://localhost:3000/api/products/search?q=pen
+```
+
+---
+
+## 👨‍💻 Author
+
+Created as part of the Power Learn Project (PLP) Week 2 Express.js Assignment.
+
+---
